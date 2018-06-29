@@ -6,7 +6,7 @@ $worker = new Worker('websocket://0.0.0.0:8000');
 $worker->count = 2;
 
 $worker->onConnect = function ($connection) {
-	print_r($connection);
+	$connection->send("hello");	
 };
 
 $worker->onMessage = function ($connection) {
