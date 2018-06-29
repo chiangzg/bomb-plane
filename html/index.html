@@ -21,16 +21,20 @@ body {
     margin: 1px 1px;
 }
 
-.fill_box {
-    background-color: cornflowerblue;
+.center {
+	line-height: 200px;
 }
 
-.beans {
-    background-color: red;
-}	
 </style>
-<script type="text/javascript" src="main.js"></script>
+<script type="text/javascript" src="./js/main.js"></script>
 <body>
-<div id="sky"></div>
+	<h1>炸飞机</h1>
+	<div id="sky"></div>
+	<div id="login" class="center">
+		<form name="form" onsubmit="return login(this);">
+			<input name="username" maxlength="10" placeholder="输入你的身份标识">
+			<input type="submit" value="login">
+		</form>
+	</div>
 </body>
 </html>
