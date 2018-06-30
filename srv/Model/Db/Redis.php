@@ -29,6 +29,11 @@ class Redis implements Database
         // TODO: Implement setOne() method.
     }
 
+    function add($value): int
+    {
+        // TODO: Implement add() method.
+    }
+
     function delete($index)
     {
         // TODO: Implement delete() method.

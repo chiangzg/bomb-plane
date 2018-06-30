@@ -1,0 +1,17 @@
+<phpunit bootstrap="srv/vendor/autoload.php">
+    <testsuites>
+        <testsuite name="tests">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">srv/Model/Db</directory>
+        </whitelist>
+    </filter>
+    <php>
+        <const name="DB" value="memory"/>
+        <const name="DEBUG" value="true"/>
+    </php>
+</phpunit>

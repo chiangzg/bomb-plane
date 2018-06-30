@@ -42,6 +42,14 @@ class Memory implements Database
         return $oldVal;
     }
 
+    public function add($value): int
+    {
+        if (!isset(self::$db[$this->table])) {
+            self::$db[$this->table] = [];
+        }
+        return array_push(self::$db[$this->table], $value);
+    }
+
     function delete($index)
     {
         $value = $this->findOne($index);

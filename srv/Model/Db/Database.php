@@ -33,6 +33,13 @@ interface Database
     function setOne($index, $value);
 
     /**
+     * @param $value
+     *
+     * @return int
+     */
+    function add($value): int;
+
+    /**
      * @param        $index
      *
      * @return mixed

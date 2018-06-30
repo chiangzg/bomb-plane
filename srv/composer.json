@@ -18,5 +18,8 @@
             "Helper\\": "Helper/",
             "Model\\": "Model/"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.2"
     }
 }
