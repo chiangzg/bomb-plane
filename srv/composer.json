@@ -1,0 +1,21 @@
+{
+    "name": "chiangzg/bomb-plane",
+    "description": "bomb-plane service",
+    "require": {
+        "php": ">=7.0.0",
+        "workerman/workerman": "^3.5"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Chiang",
+            "email": "chiangzg@qq.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Srv\\": "Service/",
+            "Helper\\": "Helper/"
+        }
+    }
+}
