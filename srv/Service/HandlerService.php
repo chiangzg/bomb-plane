@@ -56,6 +56,7 @@ class HandlerService
         if (empty($data['data']['id'])) {
             $connection->send(Response::error(0, 'username invalid!'));
             $connection->close();
+            return;
         }
 
         $id = md5($data['data']['id'] . $connection->getRemoteIp());
