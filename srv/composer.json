@@ -15,7 +15,8 @@
     "autoload": {
         "psr-4": {
             "Srv\\": "Service/",
-            "Helper\\": "Helper/"
+            "Helper\\": "Helper/",
+            "Model\\": "Model/"
         }
     }
 }

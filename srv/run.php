@@ -7,6 +7,7 @@ use Srv\HandlerService;
 use Workerman\Worker;
 
 define('DEBUG', true);
+define('DB', 'memory');
 
 $worker        = new Worker('websocket://0.0.0.0:8000');
 $worker->count = 2;
