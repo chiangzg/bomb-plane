@@ -16,6 +16,7 @@ $worker->onConnect = function ($connection) {
 };
 
 $worker->onMessage = function ($connection, $data) {
+    /* @var \Workerman\Connection\TcpConnection $connection */
     $data = Json::decode($data);
     if (!isset($data['code']) || !in_array($data['code'], HandlerService::getHandlerCode())) {
         $connection->send(Response::error());
