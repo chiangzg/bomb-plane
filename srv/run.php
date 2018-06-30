@@ -6,6 +6,8 @@ use Helper\Response;
 use Srv\HandlerService;
 use Workerman\Worker;
 
+define('DEBUG', true);
+
 $worker        = new Worker('websocket://0.0.0.0:8000');
 $worker->count = 2;
 
@@ -18,7 +20,7 @@ $worker->onMessage = function ($connection, $data) {
         $connection->send(Response::error());
         $connection->close();
     } else {
-       $connection->send(HandlerService::onMessage($data));
+        HandlerService::onMessage($connection, $data);
     }
 };
 

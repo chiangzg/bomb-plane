@@ -47,15 +47,21 @@ function initCanvas() {
         return html;
     };
 
-    (new Element('login')).show(false);
     let content = '<div>' + draw() + '</div><br>' + '<hr><br><div>' + draw() + '<dir>';
     canvas.html(content);
 }
 
 function connect(id) {
+    let requestData = function (code, data) {
+        return JSON.stringify({
+            'code': code,
+            'data': data,
+        });
+    };
+
     let socket = new WebSocket('ws://127.0.0.1:8000');
     socket.onopen = function (event) {
-        socket.send(JSON.stringify({"id": id}));
+        socket.send(requestData(0, {"id": id}));
     };
 
     socket.onmessage = function (event) {
@@ -69,18 +75,24 @@ function connect(id) {
     };
 
     socket.onclose = function (event) {
-        alert('服务器断开连接!');
+        info('服务器断开连接!');
     };
 }
 
 //data.code, data.message, data.data
 function handleResp(data) {
+    let login = function (data) {
+        if (data.status) {
+            (new Element('login')).show(false);
+            initCanvas();
+        }
+    };
 
     //todo 登录成功后，进入匹配阶段（或者指定id对战），然后在渲染画面
     info(data.code);
     switch (data.code) {
-        case 1:
-            initCanvas();
+        case 0:
+            login(data);
             break;
         default:
             alert('系统错误');

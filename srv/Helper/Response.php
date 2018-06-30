@@ -21,7 +21,7 @@ class Response
      *
      * @return string
      */
-    public static function success(int $code, array $data, string $msg = 'ok'): string
+    public static function success(int $code, array $data = null, string $msg = 'ok'): string
     {
         return Json::encode([
             'code'    => $code,
