@@ -95,6 +95,7 @@ function login(form) {
     let username = form.username.value;
     debug(username);
 
+    //todo 判断username合法性
     //todo 登录后id保存本地，预防刷新页面恢复登录
     socket.connect(username);
     return false;
