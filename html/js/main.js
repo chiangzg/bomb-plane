@@ -22,16 +22,21 @@ function Element(id) {
     };
 }
 
-function info(content) {
-    if (debug) {
+function debug(content) {
+    if (DEBUG) {
         let date = (new Date).toLocaleDateString();
-        console.log(date + '[info]: ' + content);
+        console.log(date + '[Debug]: ' + content);
     }
+}
+
+function info(content) {
+   let date = (new Date).toLocaleDateString();
+   console.log(date + '[Info]: ' + content);
 }
 
 function error(content) {
     let date = (new Date).toLocaleDateString();
-    console.error(date + '[error]: ' + content);
+    console.error(date + '[Error]: ' + content);
 }
 
 function initCanvas() {
@@ -89,7 +94,7 @@ function handleResp(data) {
     };
 
     //todo 登录成功后，进入匹配阶段（或者指定id对战），然后在渲染画面
-    info(data.code);
+    debug(data.code);
     switch (data.code) {
         case 0:
             login(data);
@@ -99,9 +104,10 @@ function handleResp(data) {
     }
 }
 
+//点击login
 function login(form) {
     let username = form.username.value;
-    info(username);
+    debug(username);
 
     //todo 登录后id保存本地，预防刷新页面恢复登录
     connect(username);
@@ -109,7 +115,7 @@ function login(form) {
 }
 
 let canvas = null;
-let debug = true;
+let DEBUG = true;
 window.onload = function () {
     canvas = new Element('sky');
 };
