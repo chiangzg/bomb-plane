@@ -1,24 +1,54 @@
 //@author Chiang
 function Element(id) {
-    this.self = document.getElementById(id);
+    let self = document.getElementById(id);
     this.html = function (html = null) {
         if (html == null) {
-            return this.self.innerHTML;
+            return self.innerHTML;
         } else {
-            this.self.innerHTML = html;
+            self.innerHTML = html;
             return null;
         }
     };
     this.setStyle = function (style) {
-        this.self.setAttribute('style', style);
+        self.setAttribute('style', style);
     };
     this.show = function (isShow = true) {
         if (isShow) {
-            this.self.style.display = '';
+            self.style.display = '';
         } else {
-            this.self.style.display = 'none';
+            self.style.display = 'none';
         }
 
+    };
+}
+
+//todo 把请求服务封装在service.js内部
+function Socket(srvUrl) {
+    let url = srvUrl;
+    let socket;
+    let requestData = function (code, data) {
+        return JSON.stringify({
+            'code': code,
+            'data': data,
+        });
+    };
+    //login
+    this.connect = function (userName) {
+        socket = new WebSocket(url);
+        socket.onopen = function (event) {
+            socket.send(requestData(0, {"id": userName}));
+        };
+        socket.onmessage = function (event) {
+            data = {};
+            if (event.data) {
+                data = JSON.parse(event.data);
+            }
+            //处理返回值
+            handleResp(data);
+        };
+        socket.onclose = function (event) {
+            info('Connection is closed!');
+        };
     };
 }
 
@@ -39,35 +69,8 @@ function initCanvas() {
     canvas.html(content);
 }
 
-function connect(id) {
-    let requestData = function (code, data) {
-        return JSON.stringify({
-            'code': code,
-            'data': data,
-        });
-    };
-
-    let socket = new WebSocket('ws://127.0.0.1:8000');
-    socket.onopen = function (event) {
-        socket.send(requestData(0, {"id": id}));
-    };
-
-    socket.onmessage = function (event) {
-        data = {};
-        if (event.data) {
-            data = JSON.parse(event.data);
-        }
-
-        //处理返回值
-        handleResp(data);
-    };
-
-    socket.onclose = function (event) {
-        info('服务器断开连接!');
-    };
-}
-
 //data.code, data.message, data.data
+//todo service.js 封装处理逻辑，Socket对象隐藏在service.js内，对外只暴露service
 function handleResp(data) {
     let login = function (data) {
         if (data.status) {
@@ -93,12 +96,15 @@ function login(form) {
     debug(username);
 
     //todo 登录后id保存本地，预防刷新页面恢复登录
-    connect(username);
+    socket.connect(username);
     return false;
 }
 
 let canvas = null;
 let DEBUG = true;
+let srvUrl = 'ws://127.0.0.1:8000';
+let socket = null;
 window.onload = function () {
     canvas = new Element('sky');
+    socket = new Socket(srvUrl);
 };
