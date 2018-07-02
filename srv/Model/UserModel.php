@@ -3,6 +3,7 @@
 namespace Model;
 
 use Model\Db\Database;
+use Model\Dos\UserDo;
 
 /**
  * Class UserModel
@@ -18,8 +19,23 @@ class UserModel extends Model
     /**
      * @return Database
      */
-   public static function query()
-   {
-       return self::getInstance('user');
-   }
+    public static function query(): Database
+    {
+        return self::getInstance('user');
+    }
+
+    /**
+     * @param string $token
+     *
+     * @return mixed
+     *
+     * @throws \InvalidArgumentException
+     */
+    public static function addUser(UserDo $user)
+    {
+        if (!$user->getToken()) {
+            throw new \InvalidArgumentException('Token is empty!');
+        }
+        return self::query()->setOne($user->getToken(), $user);
+    }
 }

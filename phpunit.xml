@@ -8,6 +8,8 @@
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">srv/Model/Db</directory>
+            <directory suffix=".php">srv/Model</directory>
+            <directory suffix=".php">srv/Services</directory>
         </whitelist>
     </filter>
     <php>

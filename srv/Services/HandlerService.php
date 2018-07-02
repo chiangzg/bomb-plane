@@ -1,6 +1,6 @@
 <?php
 
-namespace Srv;
+namespace Services;
 
 use Helper\Logger;
 use Helper\Response;
@@ -52,16 +52,16 @@ class HandlerService
      */
     private static function login(TcpConnection $connection, array $data)
     {
-        Logger::info($data);
+        Logger::debug($data);
         if (empty($data['data']['id'])) {
             $connection->send(Response::error(0, 'username invalid!'));
             $connection->close();
             return;
         }
 
-        $id = md5($data['data']['id'] . $connection->getRemoteIp());
-        Logger::info('%s login token: %s', $connection->getRemoteAddress(), $id);
-        list($status, $msg) = LoginService::login($id);
+        $id = $data['data']['id'];
+        list($status, $msg) = LoginService::login($connection->getRemoteIp(), $id);
+        Logger::debug('login id:%s, status:%d, msg:%s', $id, $status, $msg);
         if ($status) {
             $connection->send(Response::success($data['code']));
         } else {

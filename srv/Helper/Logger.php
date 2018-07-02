@@ -15,9 +15,31 @@ class Logger
 {
     public static function info(...$args)
     {
-        if (DEBUG) {
-            self::print('info', $args);
-        }
+        self::print('Info', $args);
+    }
+
+    public static function debug(...$args)
+    {
+       if (DEBUG) {
+           self::print('Debug', $args);
+       }
+    }
+
+    public static function error(...$args)
+    {
+        self::print('Error', $args);
+    }
+
+    public static function exception(\Exception $e)
+    {
+        $args = [
+            "Message: %s File: %s:%d\nStack:\n%s",
+            $e->getMessage(),
+            $e->getFile(),
+            $e->getLine(),
+            $e->getTraceAsString(),
+        ];
+        self::print('Exception', $args);
     }
 
     /**
