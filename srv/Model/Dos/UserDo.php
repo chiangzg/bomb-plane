@@ -83,4 +83,9 @@ class UserDo
         $this->userName = $userName;
         return $this;
     }
+
+    public function __toString()
+    {
+        return json_encode(get_object_vars($this));
+    }
 }
