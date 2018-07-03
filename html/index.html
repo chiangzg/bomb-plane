@@ -33,7 +33,7 @@
 <h1>炸飞机</h1>
 <div id="sky"></div>
 <div id="login" class="center">
-    <form name="form" onsubmit="return login(this);">
+    <form name="form" onsubmit="return login(this.username.value);">
         <input name="username" maxlength="10" placeholder="输入你的身份标识">
         <input type="submit" value="login">
     </form>

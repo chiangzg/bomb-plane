@@ -1,56 +1,4 @@
 //@author Chiang
-function Element(id) {
-    let self = document.getElementById(id);
-    this.html = function (html = null) {
-        if (html == null) {
-            return self.innerHTML;
-        } else {
-            self.innerHTML = html;
-            return null;
-        }
-    };
-    this.setStyle = function (style) {
-        self.setAttribute('style', style);
-    };
-    this.show = function (isShow = true) {
-        if (isShow) {
-            self.style.display = '';
-        } else {
-            self.style.display = 'none';
-        }
-
-    };
-}
-
-//todo 把请求服务封装在service.js内部
-function Socket(srvUrl) {
-    let url = srvUrl;
-    let socket;
-    let requestData = function (code, data) {
-        return JSON.stringify({
-            'code': code,
-            'data': data,
-        });
-    };
-    //login
-    this.connect = function (userName) {
-        socket = new WebSocket(url);
-        socket.onopen = function (event) {
-            socket.send(requestData(0, {"id": userName}));
-        };
-        socket.onmessage = function (event) {
-            data = {};
-            if (event.data) {
-                data = JSON.parse(event.data);
-            }
-            //处理返回值
-            handleResp(data);
-        };
-        socket.onclose = function (event) {
-            info('Connection is closed!');
-        };
-    };
-}
 
 function initCanvas() {
     let draw = function () {
@@ -69,43 +17,42 @@ function initCanvas() {
     canvas.html(content);
 }
 
-//data.code, data.message, data.data
-//todo service.js 封装处理逻辑，Socket对象隐藏在service.js内，对外只暴露service
-function handleResp(data) {
-    let login = function (data) {
-        if (data.status) {
-            (new Element('login')).show(false);
-            initCanvas();
+//点击login
+function login(userName) {
+    logger.debug(userName);
+    srv.connect(userName, function (data) {
+        if (!data.status) {
+            alert(data.message);
+            return;
         }
-    };
 
-    //todo 登录成功后，进入匹配阶段（或者指定id对战），然后在渲染画面
-    debug(data.code);
-    switch (data.code) {
-        case 0:
-            login(data);
-            break;
-        default:
-            alert('系统错误');
-    }
+        //登录用户存入locate
+        localStorage.setItem(cacheUserKey, userName);
+        //初始化画板
+        initCanvas();
+        (new ElementObj('login')).show(false);
+    });
+    return false;
 }
 
-//点击login
-function login(form) {
-    let username = form.username.value;
-    debug(username);
-
-    //todo 判断username合法性
-    //todo 登录后id保存本地，预防刷新页面恢复登录
-    socket.connect(username);
-    return false;
+function reload() {
+   let user = localStorage.getItem(cacheUserKey);
+   if (user) {
+       if (confirm('是否恢复[' + user + ']的链接？')) {
+           login(user);
+       } else {
+           localStorage.removeItem(cacheUserKey);
+       }
+   }
 }
 
 let canvas = null;
 let DEBUG = true;
 let srvUrl = 'ws://127.0.0.1:8000';
-let socket = null;
+let srv = null;
+let cacheUserKey = 'bp_user_name_key';
 window.onload = function () {
-    canvas = new Element('sky');
-    socket = new Socket(srvUrl);
+    canvas = new ElementObj('sky');
+    srv = new Socket(srvUrl);
+    reload();
 };
