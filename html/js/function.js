@@ -1,5 +1,4 @@
 //@author Chiang
-
 let logger = {
     debug: function (content) {
         if (DEBUG) {
@@ -17,21 +16,22 @@ let logger = {
     }
 };
 
-function isEmpty(obj) {
-    for (let key in obj) {
+let objTool = {
+    isEmpty: function (obj) {
+        for (let key in obj) {
+            return false;
+        }
+        return true;
+    },
+    existsKey: function (index, obj) {
+        for (let key in obj) {
+            if (index === key) {
+                return true;
+            }
+        }
         return false;
     }
-    return true;
-}
-
-function existsKey(index, obj) {
-    for (let key in obj) {
-        if (index === key) {
-            return true;
-        }
-    }
-    return false;
-}
+};
 
 /**
  * 元素对象
