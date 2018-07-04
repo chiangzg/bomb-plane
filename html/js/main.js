@@ -1,22 +1,5 @@
 //@author Chiang
 
-function initCanvas() {
-    let draw = function () {
-        let x = y = 10;
-        let html = '';
-        for (let i = 0; i < y; i++) {
-            for (let j = 0; j < x; j++) {
-                html += '<div class="size" id="' + j + i + '"></div>';
-            }
-        }
-
-        return html;
-    };
-
-    let content = '<div>' + draw() + '</div><br>' + '<hr><br><div>' + draw() + '<dir>';
-    canvas.html(content);
-}
-
 //点击login
 function login(userName) {
     logger.debug(userName);
@@ -35,6 +18,7 @@ function login(userName) {
     return false;
 }
 
+//刷新页面恢复链接
 function reload() {
    let user = localStorage.getItem(cacheUserKey);
    if (user) {
@@ -46,13 +30,11 @@ function reload() {
    }
 }
 
-let canvas = null;
 let DEBUG = true;
 let srvUrl = 'ws://127.0.0.1:8000';
 let srv = null;
 let cacheUserKey = 'bp_user_name_key';
 window.onload = function () {
-    canvas = new ElementObj('sky');
     srv = new Socket(srvUrl);
     reload();
 };

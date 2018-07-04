@@ -33,3 +33,22 @@ function Socket(srvUrl) {
         };
     };
 }
+
+//初始化画板
+function initCanvas() {
+    let draw = function () {
+        let x, y;
+        x = y = 10;
+        let html = '';
+        for (let i = 0; i < y; i++) {
+            for (let j = 0; j < x; j++) {
+                html += '<div class="size" id="' + j + i + '"></div>';
+            }
+        }
+
+        return html;
+    };
+
+    let content = '<div>' + draw() + '</div><br>' + '<hr><br><div>' + draw() + '<dir>';
+    (new ElementObj('sky')).html(content);
+}
