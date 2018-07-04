@@ -15,8 +15,11 @@ $worker->count = 2;
 $worker->onConnect = function ($connection) {
 };
 
+/**
+ * @param \Workerman\Connection\TcpConnection $connection
+ * @param string $data
+ */
 $worker->onMessage = function ($connection, $data) {
-    /* @var \Workerman\Connection\TcpConnection $connection */
     $data = Json::decode($data);
     if (!isset($data['code']) || !in_array($data['code'], HandlerService::getHandlerCode())) {
         $connection->send(Response::error());
@@ -25,9 +28,11 @@ $worker->onMessage = function ($connection, $data) {
         HandlerService::onMessage($connection, $data);
     }
 };
-
+/**
+ * @param \Workerman\Connection\TcpConnection $connection
+ */
 $worker->onClose = function ($connection) {
-    echo 'over';
+    \Helper\Logger::debug('connection close: %s', $connection->getRemoteAddress());
 };
 
 Worker::runAll();

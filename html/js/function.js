@@ -17,12 +17,6 @@ let logger = {
 };
 
 let objTool = {
-    isEmpty: function (obj) {
-        for (let key in obj) {
-            return false;
-        }
-        return true;
-    },
     existsKey: function (index, obj) {
         for (let key in obj) {
             if (index === key) {
@@ -32,31 +26,3 @@ let objTool = {
         return false;
     }
 };
-
-/**
- * 元素对象
- *
- * @param id
- * @constructor
- */
-function ElementObj(id) {
-    let self = document.getElementById(id);
-    this.html = function (html = null) {
-        if (html == null) {
-            return self.innerHTML;
-        } else {
-            self.innerHTML = html;
-            return null;
-        }
-    };
-    this.setStyle = function (style) {
-        self.setAttribute('style', style);
-    };
-    this.show = function (isShow = true) {
-        if (isShow) {
-            self.style.display = '';
-        } else {
-            self.style.display = 'none';
-        }
-    };
-}

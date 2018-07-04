@@ -1,40 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>bomb-plane</title>
+    <link rel="stylesheet" href="./css/main.css">
+    <script type="text/javascript" src="./js/lib/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="./js/function.js"></script>
+    <script type="text/javascript" src="./js/service.js"></script>
+    <script type="text/javascript" src="./js/main.js"></script>
 </head>
-<style type="text/css">
-    body {
-        text-align: center;
-    }
-
-    #sky {
-        margin: 0 auto;
-        width: 340px;
-    }
-
-    .size {
-        width: 30px;
-        height: 30px;
-        float: left;
-        border: 1px solid darkseagreen;
-        margin: 1px 1px;
-    }
-
-    .center {
-        line-height: 200px;
-    }
-
-</style>
-<script type="text/javascript" src="./js/function.js"></script>
-<script type="text/javascript" src="./js/service.js"></script>
-<script type="text/javascript" src="./js/main.js"></script>
 <body>
 <h1>炸飞机</h1>
-<div id="sky"></div>
+<div id="canvas">
+    <div id="sky"></div>
+    <div id="sandTable"></div>
+</div>
+
+<div id="info" class="display">
+    <hr>
+    <div class="table">
+        <div class="button">
+            <button id="draw-plane" disabled="disabled">绘制飞机</button>
+            <button id="start" disabled="disabled">开始</button>
+        </div>
+    </div>
+    <div class="table">
+        消息框
+    </div>
+</div>
+
 <div id="login" class="center">
-    <form name="form" onsubmit="return login(this.username.value);">
-        <input name="username" maxlength="10" placeholder="输入你的身份标识">
+    <form id="form" name="form">
+        <input id="username" maxlength="10" placeholder="输入你的身份标识">
         <input type="submit" value="login">
     </form>
 </div>
