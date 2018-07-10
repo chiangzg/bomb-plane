@@ -22,7 +22,7 @@ function Socket(srvUrl) {
         };
         socket.onmessage = function (event) {
             data = JSON.parse(event.data);
-            if ($.isEmptyObject(data) || !objTool.existsKey('code', data)) {
+            if ($.isEmptyObject(data) || !tool.existsKey('code', data)) {
                 logger.error('connect result:' + JSON.stringify(data));
                 throw "connect result error!";
             }

@@ -3,6 +3,7 @@ let DEBUG = true;
 let srvUrl = 'ws://127.0.0.1:8000';
 let srv = null;
 let cacheUserKey = 'bp_user_name_key';
+let planeList = {'plane1': [], 'plane2': [], 'plane3': []};
 
 $(document).ready(function () {
     srv = new Socket(srvUrl);
@@ -48,28 +49,57 @@ $(document).ready(function () {
      * 画飞机
      */
     $('#draw-plane').click(function () {
-        logger.debug('start draw-plane');
+        //坐标集合
+        let sky = $('#sky');
+        let draw = $(this);
 
-        $(this).html('重新绘制');
-        $('#sky').addClass('border-draw');
+        //重置
+        if (parseInt($(this).val()) === 1) {
+            planeList = {'plane1': [], 'plane2': [], 'plane3': []};
+            //重置cell背景
+            sky.children('.cell').removeClass('bg-plane1 bg-plane2 bg-plane3');
+            return;
+        }
 
-        //启动绘制轨迹
+        draw.val(1);
+        draw.html('重新绘制');
+        sky.addClass('border-draw');
+
+        //选中
         $('.cell-sky').click(function () {
-            let cell, cellId;
-            cell = $(this);
-            cellId = cell.prop('id');
+            let cell = $(this);
+            let pushPoint = function (key) {
+                let id = cell.prop('id');
+                if (planeList[key].indexOf(id) > -1) {
+                    return;
+                }
+                planeList[key].push(id);
+                logger.debug('add point ' + key + ': ' + planeList[key]);
+            };
+            let pointCount = function () {
+                return planeList.plane1.length + planeList.plane2.length + planeList.plane3.length;
+            };
 
-            if (parseInt(cell.val()) !== 1) {
-                logger.debug('add cell-sky id: [' + cellId + '] value: ' + cell.val());
-                //增加选中背景、加入坐标ary
-                cell.val(1);
-                cell.addClass('bg-selected');
-            } else {
-                logger.debug('remove cell-sky id: [' + cellId + '] value: ' + cell.val());
-                //移除背景、从坐标ary中去除
-                cell.val(0);
-                cell.removeClass('bg-selected');
+            let count = pointCount();
+            if (count <= 29) {
+                if (count >= 0 && count <= 9) {
+                    pushPoint('plane1');
+                    cell.addClass('bg-plane1')
+                } else if (count >= 9 && count <= 19) {
+                    pushPoint('plane2');
+                    cell.addClass('bg-plane2')
+                } else if (count >= 19 && count <= 29) {
+                    pushPoint('plane3');
+                    cell.addClass('bg-plane3')
+                }
             }
+
+            //画板准备完毕
+            if (pointCount() >= 29) {
+                sky.children('.cell-sky').unbind('click');
+                $('#start').removeAttr('disabled');
+            }
+            //todo 触发游戏准备动作
         });
     });
 

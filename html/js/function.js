@@ -16,7 +16,7 @@ let logger = {
     }
 };
 
-let objTool = {
+let tool = {
     existsKey: function (index, obj) {
         for (let key in obj) {
             if (index === key) {
