@@ -7,7 +7,7 @@ namespace Model\Db;
  *
  * @author Jock Jiang
  * @since  2018/6/30
- * @email ***REMOVED***
+ * @email chiangzg@gmail.com
  *
  */
 interface Database

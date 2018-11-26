@@ -11,8 +11,8 @@ use Model\UserModel;
  *
  * @author  Jock Jiang
  * @since   2018/6/30
- * @email ***REMOVED***
- *
+ * @email  chiangzg@gmail.com
+ * 
  * @package Srv
  */
 class LoginService
